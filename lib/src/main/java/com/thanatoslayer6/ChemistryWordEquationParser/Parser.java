@@ -1,11 +1,11 @@
-package ChemistryWordEquationParser;
+package com.thanatoslayer6.ChemistryWordEquationParser;
 
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class Parser {
-	// Initialize metals and non-metals...
-	public static Ions mm = new Ions();
+	// Initialize the list of metals and non-metals...
+	private static Ions mm = new Ions();
 
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -31,16 +31,38 @@ public class Parser {
 		// integer strings...
 		String ReactantFirstSolved[] = Parser.firstSolve(Reactant);
 		String ProductFirstSolved[] = Parser.firstSolve(Product);
-		
-		System.out.println(Arrays.toString(ReactantFirstSolved));
-		System.out.println(Arrays.toString(ProductFirstSolved));
+		String ReactantFinal[] = Parser.secondSolve(ReactantFirstSolved);
+		String ProductFinal[] = Parser.secondSolve(ProductFirstSolved);
+		System.out.println(Arrays.toString(ReactantFinal) + Arrays.toString(ProductFinal));
+		//System.out.println(Arrays.toString(ReactantFirstSolved));
+		//System.out.println(Arrays.toString(ProductFirstSolved));
 
 		// Second check if there are ions needed to be fixed, check for spaces
 		// System.out.println("The parsed stuff is: " + Arrays.toString(Parser.secondSolve(ProductFirstSolved)));
-
+		
 	}
-
-	public static String[] firstSolve(String side[]) {
+	public static String getFormula(String wordEq) {
+		String results = null;
+		String firstSplit[] = Parser.validateAndSplit(wordEq);
+		// Reactant
+		String Reactant[] = firstSplit[0].split("\s\\+\s");
+		// Product
+		String Product[] = firstSplit[1].split("\s\\+\s");	
+		// First Solve
+		String ReactantFirstSolved[] = Parser.firstSolve(Reactant);
+		String ProductFirstSolved[] = Parser.firstSolve(Product);
+		// Second Solve
+		String ReactantFinal[] = Parser.secondSolve(ReactantFirstSolved);
+		String ProductFinal[] = Parser.secondSolve(ProductFirstSolved);	
+		// TODO: Give output as one string... Sodium + Chloride = Sodium Chloride .. something...
+		return results;
+	}
+	/**
+	 * First solve, tries to retrieve and replace simple ions from their symbol e.x. (Sodium - Na)
+	 * @param side
+	 * @return String[] returns a string array with the right formula
+	 */
+	private static String[] firstSolve(String side[]) {
 		int indexTemp;
 		for (int i = 0; i < side.length; i++) {
 			indexTemp = mm.FindMetalIndex(side[i]);
@@ -51,8 +73,13 @@ public class Parser {
 		return side;
 	}
 	
+	/**
+	 * Second solve, tries to turn ions like "Antimonic Borate" to "Sb3(BO3)5"
+	 * @param side
+	 * @return String[] - returns a string array with the right formula
+	 */
 	// Whitespaces should be eliminated by now...
-	public static String[] secondSolve(String side[]) {
+	private static String[] secondSolve(String side[]) {
 		Boolean leftIonEndsWithNum, rightIonEndsWithNum;
 		String TwoIons[], leftIon, rightIon;
 		int leftIonIndex, rightIonIndex, leftIonCharge, rightIonCharge, calculatedGcd;
@@ -126,7 +153,7 @@ public class Parser {
 	 * @param n2 second number
 	 * @return gcd
 	 */
-	public static int gcd(int n1, int n2) {
+	private static int gcd(int n1, int n2) {
 		int gcd = 1;
 		for (int i = 1; i <= n1 && i <= n2; ++i) {
 			if (n1 % i == 0 && n2 % i == 0) {
@@ -139,7 +166,7 @@ public class Parser {
 	First split the equation into two where the index of 0 is the reactant and 1
 	is the product
 	**/
-	public static String[] validateAndSplit(String unparsedEq) {
+	private static String[] validateAndSplit(String unparsedEq) {
 		String temp[] = unparsedEq.split("\s=\s");
 		if (temp.length != 2) {
 			System.out.println("Please fix ur equation...");
@@ -152,17 +179,14 @@ public class Parser {
 	Returns an array of integers, if an element in an array is -1 then it means its 
 	not found
 	**/
-	public static int[] getIonIndex(String unparsedEq) {
+	/*
+	private static int[] getIonIndex(String unparsedEq) {
 		String temp[] = unparsedEq.split("\s\\+\s"); // Split the elements
 		int results[] = new int[temp.length]; // Create array for results
 		for (int i = 0; i < temp.length; i++) {
 			 results[i] = mm.FindMetalIndex(temp[i]); // returns -1 if ion not found
 		}
 		return results;
-	}
-/*
-	public static int getIonIndex2(String ion) {
-		return mm.FindMetalIndex(ion);
 	}
 	*/
 

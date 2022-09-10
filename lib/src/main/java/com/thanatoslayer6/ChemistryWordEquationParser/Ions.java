@@ -1,4 +1,4 @@
-package ChemistryWordEquationParser;
+package com.thanatoslayer6.ChemistryWordEquationParser;
 
 public class Ions {
 	// Metals are cations, meaning they have positive a positive charge +
