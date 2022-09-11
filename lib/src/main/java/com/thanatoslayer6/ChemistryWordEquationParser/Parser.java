@@ -39,8 +39,6 @@ public class Parser {
 				results += " + ";
 			}
 		}
-		System.out.println(results);
-		// TODO: Give output as one string... Sodium + Chloride = Sodium Chloride .. something...
 		return results;
 	}
 	/**
@@ -160,20 +158,5 @@ public class Parser {
 		}
 		return temp;
 	}
-
-	/**
-	Returns an array of integers, if an element in an array is -1 then it means its 
-	not found
-	**/
-	/*
-	private static int[] getIonIndex(String unparsedEq) {
-		String temp[] = unparsedEq.split("\s\\+\s"); // Split the elements
-		int results[] = new int[temp.length]; // Create array for results
-		for (int i = 0; i < temp.length; i++) {
-			 results[i] = mm.FindMetalIndex(temp[i]); // returns -1 if ion not found
-		}
-		return results;
-	}
-	*/
 
 }

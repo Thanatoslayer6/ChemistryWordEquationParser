@@ -98,7 +98,7 @@ public class Ions {
 		{"Chlorine", "Cl2", "0"},
 		{"Bromine", "Br2", "0"},
 		// Technical
-		{"Carbon_dioxide", "CO2", "0"},
+		{"Carbon dioxide", "CO2", "0"},
 		{"Water", "H2O", "0"},
 		{"Dihydrogen monoxide", "H2O", "0"},
 		// Hydrocarbons o_o
