@@ -1,49 +1,17 @@
 package com.thanatoslayer6.ChemistryWordEquationParser;
 
-import java.util.Arrays;
-import java.util.Scanner;
-
 public class Parser {
 	// Initialize the list of metals and non-metals...
 	private static Ions mm = new Ions();
 
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
-		System.out.print("Enter an equation: ");
-		String UnparsedEquation = sc.nextLine();
-		sc.close();
-		// For instance ( Calcium Chloride + Oxygen = Calcium Chlorate ) 
-		// Validate input and split the formula (reactant and product)
-		String firstSplit[] = Parser.validateAndSplit(UnparsedEquation);
-		// It becomes ( Calcium Chloride + Oxygen, Calcium Chlorate )
-		
-		System.out.println(Arrays.toString(firstSplit));
-		
-		// Reactant
-		String Reactant[] = firstSplit[0].split("\s\\+\s");
-		// Product
-		String Product[] = firstSplit[1].split("\s\\+\s");
-		
-		System.out.println(Arrays.toString(Reactant));
-		System.out.println(Arrays.toString(Product));
-		
-		// First scan the array, replace the solvable stuff with their index as 
-		// integer strings...
-		String ReactantFirstSolved[] = Parser.firstSolve(Reactant);
-		String ProductFirstSolved[] = Parser.firstSolve(Product);
-		String ReactantFinal[] = Parser.secondSolve(ReactantFirstSolved);
-		String ProductFinal[] = Parser.secondSolve(ProductFirstSolved);
-		System.out.println(Arrays.toString(ReactantFinal) + Arrays.toString(ProductFinal));
-		//System.out.println(Arrays.toString(ReactantFirstSolved));
-		//System.out.println(Arrays.toString(ProductFirstSolved));
-
-		// Second check if there are ions needed to be fixed, check for spaces
-		// System.out.println("The parsed stuff is: " + Arrays.toString(Parser.secondSolve(ProductFirstSolved)));
-		
-	}
-	public static String getFormula(String wordEq) {
-		String results = null;
-		String firstSplit[] = Parser.validateAndSplit(wordEq);
+	/**
+	 * Returns a string that converts a word equation to its formula 
+	 * @param wordEquation
+	 * @return String - converted word equation
+	 */
+	public static String getFormula(String wordEquation) {
+		String results = new String();
+		String firstSplit[] = Parser.validateAndSplit(wordEquation);
 		// Reactant
 		String Reactant[] = firstSplit[0].split("\s\\+\s");
 		// Product
@@ -54,6 +22,24 @@ public class Parser {
 		// Second Solve
 		String ReactantFinal[] = Parser.secondSolve(ReactantFirstSolved);
 		String ProductFinal[] = Parser.secondSolve(ProductFirstSolved);	
+		//System.out.println(Arrays.toString(ReactantFinal) + Arrays.toString(ProductFinal));
+		// Reactant
+		for (int i = 0; i < ReactantFinal.length; i++) {
+			results += ReactantFinal[i];
+			if (i < ReactantFinal.length - 1) {
+				results += " + ";
+			}
+		}
+		// Add equal sign
+		results += " = ";
+		// Product
+		for (int i = 0; i < ProductFinal.length; i++) {
+			results += ProductFinal[i];
+			if (i < ProductFinal.length - 1) {
+				results += " + ";
+			}
+		}
+		System.out.println(results);
 		// TODO: Give output as one string... Sodium + Chloride = Sodium Chloride .. something...
 		return results;
 	}
